@@ -4,16 +4,18 @@
     src: url('//at.alicdn.com/t/font_616746_akwhdkxqajrlik9.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_616746_akwhdkxqajrlik9.woff') format('woff'), url('//at.alicdn.com/t/font_616746_akwhdkxqajrlik9.ttf') format('truetype'), url('//at.alicdn.com/t/font_616746_akwhdkxqajrlik9.svg#iconfont') format('svg');
 }
 
-.toolbar {
-    width: 40px;
-    float: left;
-    position: absolute;
-    z-index: 1;
-}
-
 #toolbar-canvas {
     background: #355fcf;
     float: left;
+}
+
+.canvas-toolbar-div {
+    width: 35px;
+    height: 370px;
+    margin-top: 50px;
+    position: absolute;
+    background: aqua;
+    z-index: 1;
 }
 
 .line-width-slider {
@@ -31,13 +33,27 @@
 }
 
 .toolbar-span {
-    width: 37px;
-    height: 37px;
+    width: 30px;
+    height: 30px;
     background: #355fcf;
-    margin: 20px 5px 0;
+    margin: 10px 2px 0 2px;
     border-radius: 8px;
     float: left;
-    line-height: 37px;
+    line-height: 30px;
     text-align: center;
     list-style: none;
+}
+
+.canvas-toolbar-div .el-color-picker__trigger {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 30px;
+    width: 30px;
+    padding: 4px;
+    border: 0px solid #e6e6e6;
+    border-radius: 4px;
+    font-size: 0;
+    position: relative;
+    cursor: pointer;
 }
