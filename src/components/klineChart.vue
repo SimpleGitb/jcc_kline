@@ -310,9 +310,7 @@
       <div class="canvas-toolbar-div">
         <!-- <div class="toolbar"> -->
         <span class="toolbar-iconfont toolbar-span" title="绘制直线" @click="drawLine">&#xe653;</span>
-        <span class="toolbar-iconfont toolbar-span" title="绘制矩形" @click="drawRect">&#xe648;</span>
         <span class="toolbar-iconfont toolbar-span" title="铅笔" @click="drawTablet">&#xe6be;</span>
-        <span class="toolbar-iconfont toolbar-span" title="橡皮擦" @click="eraser">&#xe6b8;</span>
         <span class="toolbar-iconfont toolbar-span">
           <el-color-picker v-model="drawColor" @change="changeDrawColor"></el-color-picker>
         </span>
@@ -327,9 +325,8 @@
             <el-slider v-model="lineWidth" :min="1" :max="40" @change="changeLineWidth"></el-slider>
           </div>
         </span>
-        <span class="toolbar-iconfont toolbar-span" title="撤销" @click="withdraw">&#xe699;</span>
-        <span class="toolbar-iconfont toolbar-span" title="刷新画板" @click="refresh">&#xe747;</span>
-        <span class="toolbar-iconfont toolbar-span" title="保存" @click="save">&#xe69d;</span>
+        <span class="toolbar-iconfont toolbar-span" title="撤销绘图工具" @click="withdraw">&#xe699;</span>
+        <span class="toolbar-iconfont toolbar-span" title="移除绘图工具" @click="refresh">&#xe747;</span>
         <!-- </div> -->
       </div>
       <!-- 图表 -->
@@ -857,11 +854,6 @@ export default {
       this.p.style = "drawLine";
       this.p.drawing();
     },
-    // 绘制矩形
-    drawRect() {
-      this.p.style = "drawRect";
-      this.p.drawing();
-    },
     // 绘制写字板
     drawTablet() {
       this.p.style = "drawTablet";
@@ -884,11 +876,6 @@ export default {
     hiddenChangeLineWidthSlider() {
       this.showSlider = false;
     },
-    // 橡皮擦
-    eraser() {
-      this.p.style = "eraser";
-      this.p.drawing();
-    },
     // 撤销
     withdraw() {
       this.p.withdraw();
@@ -897,10 +884,6 @@ export default {
     refresh() {
       this.p.history.length = 0;
       this.p.ctx.clearRect(0, 0, this.p.canvasW, this.p.canvasH);
-    },
-    // 保存
-    save() {
-      this.p.save();
     }
   }
 };

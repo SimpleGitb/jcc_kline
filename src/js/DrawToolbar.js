@@ -34,28 +34,12 @@ class DrawToolbar {
         this.ctx.stroke();
     }
 
-    //绘制矩形
-    drawRect(x1, y1, x2, y2) {
-        this.ctx.beginPath();
-        this.ctx.rect(x1 - 0.5, y1 - 0.5, x2 - x1, y2 - y1);
-        this.ctx.closePath();
-        this.ctx[this.type]();
-    }
-
     //	绘制写字板
     drawTablet(x2, y2) {
         this.ctx.lineTo(x2, y2);
         this.ctx[this.type]();
     }
 
-    //	橡皮擦
-    eraser(x2, y2) {
-        this.ctx.clearRect(x2, y2, 10, 10);
-    }
-    //	保存
-    save() {
-        location.href = this.canvas.toDataURL().replace('image/png', 'image/stream');
-    }
     //	撤回
     withdraw() {
         if (this.history.length == 0) {
