@@ -35,7 +35,7 @@ class DrawToolbar {
     }
 
     //	绘制写字板
-    drawTablet(x2, y2) {
+    drawTablet(x1, y1, x2, y2) {
         this.ctx.lineTo(x2, y2);
         this.ctx[this.type]();
     }
