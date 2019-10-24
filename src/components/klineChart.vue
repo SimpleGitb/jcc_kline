@@ -868,6 +868,8 @@ export default {
       let canvasDocument = document.getElementById("drawToolCanvas");
       canvasDocument.style.width = klineDocument.offsetWidth - 35 + "px";
       canvasDocument.style.height = klineDocument.offsetHeight + "px";
+      canvasDocument.width = klineDocument.offsetWidth - 35;
+      canvasDocument.height = klineDocument.offsetHeight;
     },
     // 绘制直线
     drawLine() {
