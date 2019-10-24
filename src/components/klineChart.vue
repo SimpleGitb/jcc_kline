@@ -322,7 +322,7 @@
         >
           &#xe604;
           <div class="line-width-slider" v-show="showSlider">
-            <el-slider v-model="lineWidth" :min="1" :max="40" @change="changeLineWidth"></el-slider>
+            <el-slider v-model="lineWidth" :min="1" :max="10" @change="changeLineWidth"></el-slider>
           </div>
         </span>
         <span class="toolbar-iconfont toolbar-span" title="撤销绘图工具" @click="withdraw">&#xe699;</span>
@@ -386,6 +386,7 @@
 <script>
 import "../icon/iconfont.css";
 import "../css/common.css";
+import { ColorPicker, Slider } from "element-ui";
 import Fullscreen from "vue-fullscreen/src/component.vue";
 import KLine from "./kline.vue";
 import Depth from "./marketDepth.vue";
@@ -400,6 +401,7 @@ import {
   handleDivisionData,
   calculateMA
 } from "../js/processData";
+import DrawToolbar from "../js/DrawToolbar";
 export default {
   name: "klineChart",
   components: {
@@ -445,8 +447,8 @@ export default {
       lineWidth: 1,
       showSlider: false, // 是否显示绘图工具栏调整线宽滑块
       canvas: null,
-      ctx: null,
-      p: null
+      canvasContext: null,
+      drawTool: null
     };
   },
   props: {
@@ -506,6 +508,10 @@ export default {
     if (this.klineConfig.defaultSize === true) {
       window.addEventListener("resize", this.resize);
     }
+    this.canvas = document.getElementById("drawToolCanvas");
+    if (!this.canvas.getContext) return;
+    this.canvasContext = this.canvas.getContext("2d");
+    this.drawTool = new DrawToolbar(this.canvas, this.canvasContext);
   },
   watch: {
     klineConfig() {
@@ -860,27 +866,27 @@ export default {
     getDrawToolCanvasSize() {
       let klineDocument = document.getElementById("echarts-kline-div");
       let canvasDocument = document.getElementById("drawToolCanvas");
-      canvasDocument.style.width = klineDocument.offsetWidth + "px";
+      canvasDocument.style.width = klineDocument.offsetWidth - 35 + "px";
       canvasDocument.style.height = klineDocument.offsetHeight + "px";
     },
     // 绘制直线
     drawLine() {
-      this.p.style = "drawLine";
-      this.p.drawing();
+      this.drawTool.style = "drawLine";
+      this.drawTool.drawing();
     },
     // 绘制写字板
     drawTablet() {
-      this.p.style = "drawTablet";
-      this.p.drawing();
+      this.drawTool.style = "drawTablet";
+      this.drawTool.drawing();
     },
     // 修改颜色
     changeDrawColor() {
-      this.p.fillColor = this.drawColor;
-      this.p.strokeColor = this.drawColor;
+      this.drawTool.fillColor = this.drawColor;
+      this.drawTool.strokeColor = this.drawColor;
     },
     // 修改线条宽度
     changeLineWidth() {
-      this.ctx.lineWidth = this.lineWidth;
+      this.canvasContext.lineWidth = this.lineWidth;
     },
     // 显示修改线宽的滑块
     showChangeLineWidthSlider() {
@@ -892,12 +898,17 @@ export default {
     },
     // 撤销
     withdraw() {
-      this.p.withdraw();
+      this.drawTool.withdraw();
     },
     // 刷新
     refresh() {
-      this.p.history.length = 0;
-      this.p.ctx.clearRect(0, 0, this.p.canvasW, this.p.canvasH);
+      this.drawTool.history.length = 0;
+      this.drawTool.ctx.clearRect(
+        0,
+        0,
+        this.drawTool.canvasW,
+        this.drawTool.canvasH
+      );
     }
   }
 };

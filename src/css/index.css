@@ -10,6 +10,8 @@
 }
 
 .draw-toolbar-canvas {
+    margin-left: 35px;
+    z-index: 11;
     position: absolute;
     background: #355fcf;
 }
@@ -24,7 +26,8 @@
 }
 
 .line-width-slider {
-    margin-top: -10px;
+    margin-top: -23px;
+    margin-right: 8px;
 }
 
 .toolbar-iconfont {
