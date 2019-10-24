@@ -307,7 +307,7 @@
       </div>
 
       <!-- 绘图工具栏按钮 -->
-      <div class="canvas-toolbar-div">
+      <div class="canvas-toolbar-div" v-show="showChart === 'candle'">
         <!-- <div class="toolbar"> -->
         <span class="toolbar-iconfont toolbar-span" title="绘制直线" @click="drawLine">&#xe653;</span>
         <span class="toolbar-iconfont toolbar-span" title="铅笔" @click="drawTablet">&#xe6be;</span>
@@ -330,7 +330,9 @@
         <!-- </div> -->
       </div>
       <!-- 图表 -->
-      <div @click="hiddenPopover">
+      <div id="echarts-kline-div" @click="hiddenPopover">
+        <!-- 绘图工具栏画布-->
+        <canvas id="drawToolCanvas" class="draw-toolbar-canvas"></canvas>
         <KLine
           ref="candle"
           v-show="showChart === 'candle' && cycle !== 'everyhour'"
@@ -441,7 +443,7 @@ export default {
       showIndicatorMA: true,
       drawColor: "rgb(255, 0, 0)",
       lineWidth: 1,
-      showSlider: false,
+      showSlider: false, // 是否显示绘图工具栏调整线宽滑块
       canvas: null,
       ctx: null,
       p: null
@@ -500,6 +502,7 @@ export default {
     this.selectHour = this.message.hourPC;
   },
   mounted() {
+    this.getDrawToolCanvasSize();
     if (this.klineConfig.defaultSize === true) {
       window.addEventListener("resize", this.resize);
     }
@@ -690,7 +693,7 @@ export default {
       this.resize();
       this.changeChartDataObj(this.klineDataObj, this.showIndicatorMA);
     },
-
+    // 获取当前鼠标所在点的数据
     getTipDataIndex(index) {
       if (!isNaN(index) && index >= 0) {
         if (this.chartDataObj.precision) {
@@ -779,6 +782,7 @@ export default {
         }
       }
     },
+    // 全屏
     fullscreenChange(fullscreen) {
       this.showMinCycle = false;
       this.showHourCycle = false;
@@ -786,7 +790,9 @@ export default {
       this.isFullScreen = fullscreen;
       this.resize();
     },
+    // 监听浏览器窗口大小变化事件
     resize() {
+      this.getDrawToolCanvasSize();
       this.resizeSize = {
         isFullScreen: this.isFullScreen,
         isCloseIndicator: this.isClose
@@ -823,6 +829,7 @@ export default {
         this.$refs.volume.changeDataZoom(this.changeDataZoomType);
       }
     },
+    // 点击全屏事件
     fullScreenToggle() {
       this.$refs["fullscreen"].toggle();
     },
@@ -848,6 +855,13 @@ export default {
       this.showMinCycle = false;
       this.showHourCycle = false;
       this.showIndicatorOpt = false;
+    },
+    // 获取绘图工具画布的宽高
+    getDrawToolCanvasSize() {
+      let klineDocument = document.getElementById("echarts-kline-div");
+      let canvasDocument = document.getElementById("drawToolCanvas");
+      canvasDocument.style.width = klineDocument.offsetWidth + "px";
+      canvasDocument.style.height = klineDocument.offsetHeight + "px";
     },
     // 绘制直线
     drawLine() {

@@ -9,6 +9,11 @@
     float: left;
 }
 
+.draw-toolbar-canvas {
+    position: absolute;
+    background: #355fcf;
+}
+
 .canvas-toolbar-div {
     width: 35px;
     height: 370px;
