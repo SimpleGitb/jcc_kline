@@ -309,8 +309,16 @@
       <!-- 绘图工具栏按钮 -->
       <div class="canvas-toolbar-div" v-show="showChart === 'candle'">
         <!-- <div class="toolbar"> -->
-        <span class="toolbar-iconfont toolbar-span" title="绘制直线" @click="drawLine">&#xe653;</span>
-        <span class="toolbar-iconfont toolbar-span" title="铅笔" @click="drawTablet">&#xe6be;</span>
+        <span
+          :class="this.toolbarType != 'line' ? 'toolbar-iconfont toolbar-span':'toolbar-iconfont toolbar-span toolbar-span-active'"
+          title="绘制直线"
+          @click="drawLine"
+        >&#xe653;</span>
+        <span
+          :class="this.toolbarType != 'tablet' ? 'toolbar-iconfont toolbar-span':'toolbar-iconfont toolbar-span toolbar-span-active'"
+          title="铅笔"
+          @click="drawTablet"
+        >&#xe6be;</span>
         <span class="toolbar-iconfont toolbar-span">
           <el-color-picker v-model="drawColor" @change="changeDrawColor"></el-color-picker>
         </span>
@@ -332,7 +340,11 @@
       <!-- 图表 -->
       <div id="echarts-kline-div" @click="hiddenPopover">
         <!-- 绘图工具栏画布-->
-        <canvas id="drawToolCanvas" class="draw-toolbar-canvas"></canvas>
+        <canvas
+          id="drawToolCanvas"
+          @mouseup="mouseUpCanvas"
+          :class="this.showDrawCanvas ? 'draw-toolbar-canvas draw-toolbar-canvas-click' : 'draw-toolbar-canvas'"
+        ></canvas>
         <KLine
           ref="candle"
           v-show="showChart === 'candle' && cycle !== 'everyhour'"
@@ -448,7 +460,9 @@ export default {
       showSlider: false, // 是否显示绘图工具栏调整线宽滑块
       canvas: null,
       canvasContext: null,
-      drawTool: null
+      drawTool: null,
+      showDrawCanvas: false,
+      toolbarType: ""
     };
   },
   props: {
@@ -873,11 +887,20 @@ export default {
     },
     // 绘制直线
     drawLine() {
+      this.toolbarType = "line";
+      this.showDrawCanvas = true;
       this.drawTool.style = "drawLine";
       this.drawTool.drawing();
     },
+    // 绘制完成后鼠标松开事件
+    mouseUpCanvas() {
+      this.toolbarType = "";
+      this.showDrawCanvas = false;
+    },
     // 绘制写字板
     drawTablet() {
+      this.toolbarType = "tablet";
+      this.showDrawCanvas = true;
       this.drawTool.style = "drawTablet";
       this.drawTool.drawing();
     },

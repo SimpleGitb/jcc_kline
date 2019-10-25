@@ -11,17 +11,19 @@
 
 .draw-toolbar-canvas {
     margin-left: 35px;
-    z-index: 11;
     position: absolute;
-    background: #355fcf;
+}
+
+.draw-toolbar-canvas-click {
+    z-index: 11;
 }
 
 .canvas-toolbar-div {
     width: 35px;
-    height: 370px;
+    height: 260px;
     margin-top: 50px;
     position: absolute;
-    background: aqua;
+    background: #161b21;
     z-index: 1;
 }
 
@@ -43,13 +45,16 @@
 .toolbar-span {
     width: 30px;
     height: 30px;
-    background: #355fcf;
     margin: 10px 2px 0 2px;
     border-radius: 8px;
     float: left;
     line-height: 30px;
     text-align: center;
     list-style: none;
+}
+
+.toolbar-span-active {
+    background: #355fcf;
 }
 
 .canvas-toolbar-div .el-color-picker__trigger {
