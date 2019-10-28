@@ -27,7 +27,8 @@ export default {
       klineData: null,
       coinType: "",
       watchLoading: false,
-      loadingTime: 0
+      loadingTime: 0,
+      sourceCanvas: null
     };
   },
   props: {
@@ -94,6 +95,7 @@ export default {
             this.coinType = this.chartDataObj.coinType;
           } else {
             this.kline.updateOption(data, this.currentCycle);
+            this.test(this.sourceCanvas);
           }
         }
       } else {
@@ -152,6 +154,15 @@ export default {
     this.dispose();
   },
   methods: {
+    test(sourceCanvas) {
+      if (sourceCanvas) {
+        this.sourceCanvas = sourceCanvas;
+        let kline = document.getElementById("kline");
+        let canvas = kline.firstChild.firstChild;
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(this.sourceCanvas, 0, 0);
+      }
+    },
     init(clear) {
       this.refreshKline = true;
       this.kline.initChart(this.$refs.klineRef, clear);

@@ -896,6 +896,8 @@ export default {
     mouseUpCanvas() {
       this.toolbarType = "";
       this.showDrawCanvas = false;
+      let c = document.getElementById("drawToolCanvas");
+      this.$refs.candle.test(c);
     },
     // 绘制写字板
     drawTablet() {
