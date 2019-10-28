@@ -160,7 +160,7 @@ export default {
         let kline = document.getElementById("kline");
         let canvas = kline.firstChild.firstChild;
         let ctx = canvas.getContext("2d");
-        ctx.drawImage(this.sourceCanvas, 0, 0);
+        ctx.drawImage(this.sourceCanvas, 35, 0);
       }
     },
     init(clear) {
